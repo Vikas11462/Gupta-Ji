@@ -32,14 +32,18 @@ export default function LoginPage() {
                 .eq('id', data.user.id)
                 .single();
 
-            const next = new URLSearchParams(window.location.search).get('next');
+            const params = new URLSearchParams(window.location.search);
+            const next = params.get('next');
+            const returnUrl = params.get('returnUrl');
 
-            if (profile?.role === 'admin') {
+            if (returnUrl) {
+                router.push(returnUrl);
+            } else if (next) {
+                router.push(next);
+            } else if (profile?.role === 'admin') {
                 router.push('/admin');
             } else if (!profile?.full_name || !profile?.phone || !profile?.address) {
                 router.push('/profile');
-            } else if (next) {
-                router.push(next);
             } else {
                 router.push('/');
             }
