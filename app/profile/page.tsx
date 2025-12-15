@@ -45,7 +45,7 @@ export default function ProfilePage() {
             router.push('/login');
         }
 
-        if (profile) {
+        if (profile && user) {
             setFullName(profile.full_name || '');
             setPhone(profile.phone || '');
             setAddress(profile.address || '');
