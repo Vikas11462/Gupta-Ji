@@ -19,7 +19,7 @@ export function Header() {
                         <span className="sr-only">Toggle menu</span>
                     </Button>
                     <Link href={profile?.role === 'admin' ? "/admin" : "/"} className="flex items-center gap-2 group">
-                        <span className="text-xl font-bold tracking-tight text-primary group-hover:text-primary/80 transition-colors">Gupta Jii</span>
+                        <span className="text-xl font-bold tracking-tight text-primary group-hover:text-primary/80 transition-colors">Gupta Ji</span>
                     </Link>
                 </div>
 

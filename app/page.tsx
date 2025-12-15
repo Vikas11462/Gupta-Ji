@@ -71,7 +71,7 @@ export default function Home() {
                   <span className="text-gradient">Order Online</span>
                 </h1>
                 <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl/relaxed lg:text-2xl/relaxed">
-                  Experience the future of shopping with Gupta Jii Store.
+                  Experience the future of shopping with Gupta Ji Store.
                   Premium products, instant delivery, and a seamless experience.
                 </p>
               </motion.div>

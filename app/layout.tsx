@@ -10,8 +10,8 @@ import CustomCursor from "@/components/custom-cursor";
 const outfit = Outfit({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Gupta Jii Store",
-  description: "Order online from Gupta Jii Store",
+  title: "Gupta Ji Store",
+  description: "Order online from Gupta Ji Store",
 };
 
 export default function RootLayout({

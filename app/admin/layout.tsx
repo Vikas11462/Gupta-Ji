@@ -11,7 +11,7 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
                     <div className="container mx-auto flex h-16 items-center justify-between px-4">
                         <div className="flex items-center gap-6">
                             <Link href="/admin" className="text-xl font-bold">
-                                Gupta Jii Admin
+                                Gupta Ji Admin
                             </Link>
                             <nav className="flex gap-4 text-sm font-medium">
                                 <Link href="/admin" className="hover:text-primary">
