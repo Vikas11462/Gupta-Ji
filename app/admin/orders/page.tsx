@@ -27,6 +27,7 @@ type Order = {
 export default function AdminOrdersPage() {
     const [orders, setOrders] = useState<Order[]>([]);
     const [loading, setLoading] = useState(true);
+    const [searchQuery, setSearchQuery] = useState('');
 
     const [error, setError] = useState<string | null>(null);
 
@@ -35,6 +36,7 @@ export default function AdminOrdersPage() {
     }, []);
 
     const fetchOrders = async () => {
+        // ... existing fetch logic is fine, we filter locally
         try {
             // 1. Fetch orders
             const { data: dbOrders, error: ordersError } = await supabase
@@ -142,14 +144,34 @@ export default function AdminOrdersPage() {
         }
     };
 
+    const filteredOrders = orders.filter(order => {
+        const query = searchQuery.toLowerCase();
+        return (
+            order.id.toLowerCase().includes(query) ||
+            order.customer_name?.toLowerCase().includes(query) ||
+            order.customer_phone?.includes(query)
+        );
+    });
+
     if (loading) return <div className="p-8">Loading orders...</div>;
 
     return (
         <div className="space-y-6">
-            <h1 className="text-2xl font-bold">Orders Management</h1>
+            <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+                <h1 className="text-2xl font-bold">Orders Management</h1>
+                <div className="w-full md:w-auto">
+                    <input
+                        type="text"
+                        placeholder="Search Order ID, Name, or Phone"
+                        value={searchQuery}
+                        onChange={(e) => setSearchQuery(e.target.value)}
+                        className="w-full rounded-md border border-gray-300 px-4 py-2 text-sm focus:border-primary focus:outline-none focus:ring-1 focus:ring-primary md:w-80"
+                    />
+                </div>
+            </div>
 
             <div className="space-y-4">
-                {orders.map((order) => (
+                {filteredOrders.map((order) => (
                     <div key={order.id} className="rounded-lg border bg-white p-6 shadow-sm">
                         <div className="mb-4 flex flex-col justify-between gap-4 border-b pb-4 md:flex-row md:items-center">
                             <div>
@@ -206,9 +228,9 @@ export default function AdminOrdersPage() {
                     </div>
                 ))}
 
-                {orders.length === 0 && (
+                {filteredOrders.length === 0 && (
                     <div className="py-12 text-center text-gray-500">
-                        No orders found.
+                        {searchQuery ? 'No orders found matching your search.' : 'No orders found.'}
                     </div>
                 )}
             </div>
