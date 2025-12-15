@@ -279,6 +279,33 @@ export default function ProfilePage() {
                                             </span>
                                         </div>
                                     </div>
+
+                                    {/* Order Tracking Stepper */}
+                                    {order.status !== 'cancelled' && (
+                                        <div className="mt-6">
+                                            <div className="relative">
+                                                <div className="absolute left-0 top-1/2 h-0.5 w-full -translate-y-1/2 bg-gray-200"></div>
+                                                <div className="relative flex justify-between">
+                                                    {['pending', 'processing', 'shipped', 'delivered'].map((step, index) => {
+                                                        const currentStepIndex = ['pending', 'processing', 'shipped', 'delivered'].indexOf(order.status.toLowerCase());
+                                                        const isCompleted = index <= currentStepIndex;
+                                                        const isCurrent = index === currentStepIndex;
+
+                                                        return (
+                                                            <div key={step} className="flex flex-col items-center gap-2 bg-white px-2">
+                                                                <div className={`flex h-3 w-3 items-center justify-center rounded-full border-2 ${isCompleted ? 'border-primary bg-primary' : 'border-gray-300 bg-white'}`}>
+                                                                    {isCompleted && <div className="h-1.5 w-1.5 rounded-full bg-white" />}
+                                                                </div>
+                                                                <span className={`text-xs font-medium capitalize ${isCurrent ? 'text-primary' : 'text-gray-500'}`}>
+                                                                    {step}
+                                                                </span>
+                                                            </div>
+                                                        );
+                                                    })}
+                                                </div>
+                                            </div>
+                                        </div>
+                                    )}
                                 </div>
                                 <div className="p-6">
                                     <div className="space-y-4">
