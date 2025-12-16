@@ -1,6 +1,6 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import { useState, useEffect, Suspense } from "react"
 import { Header } from "@/components/layout/header"
 import { Footer } from "@/components/layout/footer"
 import { ProductCard } from "@/components/product/product-card"
@@ -12,7 +12,7 @@ import { useAuth } from "@/context/auth-context"
 import { useSearchParams, useRouter } from "next/navigation"
 import { Search } from "lucide-react"
 
-export default function ShopPage() {
+function ShopContent() {
     const [searchQuery, setSearchQuery] = useState("")
     const [selectedCategory, setSelectedCategory] = useState<string | null>(null)
     const [products, setProducts] = useState<any[]>([])
@@ -160,5 +160,13 @@ export default function ShopPage() {
             </main>
             <Footer />
         </div>
+    )
+}
+
+export default function ShopPage() {
+    return (
+        <Suspense fallback={<div className="p-8 text-center">Loading...</div>}>
+            <ShopContent />
+        </Suspense>
     )
 }
