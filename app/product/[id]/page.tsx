@@ -29,18 +29,42 @@ export default function ProductPage() {
                 setProduct(data)
 
                 // Fetch related products
+                // Fetch related products
+                let relatedItems: any[] = []
+
                 if (data.category_id) {
-                    const { data: related, error: relatedError } = await supabase
+                    // 1. Try to get products from same category
+                    const { data: sameCategory } = await supabase
                         .from('products')
                         .select('*, categories(name)')
                         .eq('category_id', data.category_id)
-                        .neq('id', data.id) // Exclude current product
+                        .neq('id', data.id)
                         .limit(4)
 
-                    if (!relatedError) {
-                        setRelatedProducts(related || [])
+                    if (sameCategory) {
+                        relatedItems = [...sameCategory]
                     }
                 }
+
+                // 2. If we don't have enough, fetch more random products
+                if (relatedItems.length < 4) {
+                    const limit = 4 - relatedItems.length
+                    const existingIds = [data.id, ...relatedItems.map(i => i.id)]
+
+                    // We can't do true 'random' easily in Supabase without a function, 
+                    // so we'll just fetch items not in the existing list.
+                    const { data: fallbackItems } = await supabase
+                        .from('products')
+                        .select('*, categories(name)')
+                        .not('id', 'in', `(${existingIds.join(',')})`)
+                        .limit(limit)
+
+                    if (fallbackItems) {
+                        relatedItems = [...relatedItems, ...fallbackItems]
+                    }
+                }
+
+                setRelatedProducts(relatedItems)
             } catch (error) {
                 console.error('Error fetching product:', error)
             } finally {
@@ -153,7 +177,7 @@ export default function ProductPage() {
                 {
                     relatedProducts.length > 0 && (
                         <div className="container mt-20 px-4 md:px-6">
-                            <h2 className="mb-8 text-2xl font-bold">Related Products</h2>
+                            <h2 className="mb-8 text-2xl font-bold">You Might Also Like</h2>
                             <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
                                 {relatedProducts.map((related) => (
                                     <Link key={related.id} href={`/product/${related.id}`} className="group block">

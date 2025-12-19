@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/button"
 import Link from "next/link"
 import Image from "next/image"
 import { ArrowRight, ShoppingBag, Star, Smartphone, Laptop, Headphones, Car, Bike, Watch, Speaker, Zap, Home as HomeIcon, Wrench } from "lucide-react"
+import { FeaturedProducts } from "@/components/product/featured-products"
 
 
 import { useAuth } from "@/context/auth-context"
@@ -176,6 +177,9 @@ export default function Home() {
             </div>
           </div>
         </section>
+
+        {/* Featured / Trending Section */}
+        <FeaturedProducts />
 
         {/* Shop by Category Section */}
         <section className="py-16 md:py-24">

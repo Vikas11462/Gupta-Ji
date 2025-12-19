@@ -30,8 +30,14 @@ function ShopContent() {
 
     useEffect(() => {
         const categoryId = searchParams.get('category_id')
+        const search = searchParams.get('search')
+
         if (categoryId) {
             setSelectedCategory(categoryId)
+        }
+
+        if (search) {
+            setSearchQuery(search)
         }
     }, [searchParams])
 
