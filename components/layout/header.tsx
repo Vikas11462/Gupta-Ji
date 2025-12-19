@@ -1,6 +1,7 @@
 "use client"
 
 import Link from "next/link"
+import { usePathname } from "next/navigation"
 import { ShoppingCart, Search, Menu, User, Package } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/context/cart-context"
@@ -8,7 +9,11 @@ import { useAuth } from "@/context/auth-context"
 
 export function Header() {
     const { totalItems } = useCart()
+
     const { user, signOut, profile } = useAuth()
+    const pathname = usePathname()
+
+    const isActive = (path: string) => pathname === path ? "bg-primary/10 text-primary" : "hover:bg-primary/10 hover:text-primary"
 
     return (
         <header className="sticky top-0 z-50 w-full border-t-4 border-primary border-b border-border/40 bg-white/80 backdrop-blur-xl shadow-sm supports-[backdrop-filter]:bg-white/60 dark:bg-black/50 dark:border-white/10">
@@ -58,13 +63,13 @@ export function Header() {
                     {user ? (
                         <div className="flex items-center gap-1">
                             <Link href="/orders">
-                                <Button variant="ghost" size="icon" title="My Orders" className="hover:bg-primary/10 hover:text-primary transition-colors">
+                                <Button variant="ghost" size="icon" title="My Orders" className={`${isActive('/orders')} transition-colors`}>
                                     <Package className="h-6 w-6" />
                                     <span className="sr-only">My Orders</span>
                                 </Button>
                             </Link>
                             <Link href="/profile">
-                                <Button variant="ghost" size="icon" title="My Profile" className="hover:bg-primary/10 hover:text-primary transition-colors">
+                                <Button variant="ghost" size="icon" title="My Profile" className={`${isActive('/profile')} transition-colors`}>
                                     <User className="h-6 w-6" />
                                     <span className="sr-only">My Profile</span>
                                 </Button>
