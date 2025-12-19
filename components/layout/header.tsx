@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ShoppingCart, Search, Menu, User } from "lucide-react"
+import { ShoppingCart, Search, Menu, User, Package } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useCart } from "@/context/cart-context"
 import { useAuth } from "@/context/auth-context"
@@ -56,12 +56,20 @@ export function Header() {
                         </Button>
                     </Link>
                     {user ? (
-                        <Link href="/profile">
-                            <Button variant="ghost" size="icon" title="My Profile" className="hover:bg-primary/10 hover:text-primary transition-colors">
-                                <User className="h-6 w-6" />
-                                <span className="sr-only">My Profile</span>
-                            </Button>
-                        </Link>
+                        <div className="flex items-center gap-1">
+                            <Link href="/orders">
+                                <Button variant="ghost" size="icon" title="My Orders" className="hover:bg-primary/10 hover:text-primary transition-colors">
+                                    <Package className="h-6 w-6" />
+                                    <span className="sr-only">My Orders</span>
+                                </Button>
+                            </Link>
+                            <Link href="/profile">
+                                <Button variant="ghost" size="icon" title="My Profile" className="hover:bg-primary/10 hover:text-primary transition-colors">
+                                    <User className="h-6 w-6" />
+                                    <span className="sr-only">My Profile</span>
+                                </Button>
+                            </Link>
+                        </div>
                     ) : (
                         <Link href="/login">
                             <Button variant="default" size="default" className="rounded-full px-6 font-semibold shadow-md hover:shadow-lg shadow-primary/20 transition-all">
