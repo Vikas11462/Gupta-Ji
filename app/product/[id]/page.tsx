@@ -8,6 +8,7 @@ import { useCart } from "@/context/cart-context"
 import { Plus, Minus } from "lucide-react"
 import Link from "next/link"
 import { supabase } from "@/lib/supabase"
+import { dummyProducts } from "@/lib/dummy-data"
 
 export default function ProductPage() {
     const params = useParams()
@@ -19,6 +20,20 @@ export default function ProductPage() {
     useEffect(() => {
         const fetchProduct = async () => {
             try {
+                // 1. Check Dummy Data first
+                const dummyProduct = dummyProducts.find(p => p.id === params.id)
+                if (dummyProduct) {
+                    setProduct(dummyProduct)
+
+                    // Dummy Data Related Products
+                    const related = dummyProducts
+                        .filter(p => p.category_id === dummyProduct.category_id && p.id !== dummyProduct.id)
+                        .slice(0, 4)
+
+                    setRelatedProducts(related)
+                    return // Exit early
+                }
+
                 const { data, error } = await supabase
                     .from('products')
                     .select('*, categories(name)')
@@ -28,7 +43,6 @@ export default function ProductPage() {
                 if (error) throw error
                 setProduct(data)
 
-                // Fetch related products
                 // Fetch related products
                 let relatedItems: any[] = []
 
@@ -51,8 +65,6 @@ export default function ProductPage() {
                     const limit = 4 - relatedItems.length
                     const existingIds = [data.id, ...relatedItems.map(i => i.id)]
 
-                    // We can't do true 'random' easily in Supabase without a function, 
-                    // so we'll just fetch items not in the existing list.
                     const { data: fallbackItems } = await supabase
                         .from('products')
                         .select('*, categories(name)')
