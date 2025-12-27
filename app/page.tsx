@@ -179,10 +179,10 @@ export default function Home() {
         </section>
 
         {/* Featured / Trending Section */}
-        <FeaturedProducts />
+        {/* <FeaturedProducts /> */}
 
         {/* Shop by Category Section */}
-        <section className="py-16 md:py-24">
+        {/* <section className="py-16 md:py-24">
           <div className="container px-4 md:px-6">
             <div className="flex items-end justify-between mb-8">
               <div className="space-y-1">
@@ -234,7 +234,7 @@ export default function Home() {
               </Button>
             </div>
           </div>
-        </section>
+        </section> */}
       </main>
       <Footer />
     </div>
